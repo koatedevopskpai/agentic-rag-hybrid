@@ -1,0 +1,17 @@
+{
+  "corpus": {
+    "d1": "Red pandas eat bamboo and live in the Himalayas.",
+    "d2": "Rocket engines use combustion to generate thrust in space.",
+    "d3": "Postgres can store vectors with the pgvector extension.",
+    "d4": "RAG combines retrieval with generation to answer grounded questions.",
+    "d5": "The critical path determines the longest sequence of tasks.",
+    "d6": "Retrieval augmented generation combines a corpus with an LLM."
+  },
+  "queries": [
+    { "query": "retrieval augmented generation", "top_k": 3, "expected_in_top": ["d4", "d6"] },
+    { "query": "pgvector postgres search", "top_k": 3, "expected_in_top": ["d3"] },
+    { "query": "rocket thrust in space", "top_k": 3, "expected_in_top": ["d2"] },
+    { "query": "critical path schedule", "top_k": 3, "expected_in_top": ["d5"] },
+    { "query": "bamboo habitat", "top_k": 3, "expected_in_top": ["d1"] }
+  ]
+}
