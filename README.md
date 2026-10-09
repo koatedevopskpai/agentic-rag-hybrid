@@ -1,5 +1,7 @@
 # agentic-rag-hybrid
 
+[![CI](https://img.shields.io/github/actions/workflow/status/koatedevopskpai/agentic-rag-hybrid/ci.yml?branch=main)](https://github.com/koatedevopskpai/agentic-rag-hybrid/actions) [coverage ≥80% enforced in CI]
+
 **Planner–Executor RAG with hybrid retrieval** — demo/enterprise retrieval that
 avoids the classic failure modes: sparse-only misses synonyms, dense-only misses
 exact terms, and ungrounded output gets trusted. This repo fuses **BM25
