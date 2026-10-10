@@ -1,0 +1,24 @@
+{
+  "entities": [
+    { "id": "alice", "type": "person", "aliases": [] },
+    { "id": "bob", "type": "person", "aliases": [] },
+    { "id": "rag-engine", "type": "project", "aliases": ["RAG engine"] },
+    { "id": "eval-harness", "type": "project", "aliases": ["eval harness"] },
+    { "id": "python", "type": "skill", "aliases": [] },
+    { "id": "neo4j", "type": "skill", "aliases": [] },
+    { "id": "postgres", "type": "skill", "aliases": [] }
+  ],
+  "relations": [
+    ["alice", "WORKS_ON", "rag-engine"],
+    ["bob", "WORKS_ON", "eval-harness"],
+    ["rag-engine", "USES", "python"],
+    ["rag-engine", "USES", "neo4j"],
+    ["eval-harness", "USES", "python"],
+    ["eval-harness", "USES", "postgres"]
+  ],
+  "queries": [
+    { "query": "Which projects use Neo4j?", "top_k": 3, "expected_in_top": ["rag-engine"] },
+    { "query": "Who works on the eval harness?", "top_k": 3, "expected_in_top": ["bob"] },
+    { "query": "What skills does the RAG engine need?", "top_k": 4, "expected_in_top": ["python", "neo4j"] }
+  ]
+}

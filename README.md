@@ -29,7 +29,49 @@ query ─▶ Planner (deterministic decompose)
 ```bash
 pip install -e ".[dev]"
 python -m pytest            # unit tests
-python evals/evaluate.py    # golden-case eval gate
+python evals/evaluate.py    # golden-case eval gate (text + graph)
+```
+
+```python
+from agentic_rag_hybrid import Corpus, GraphRAG, KnowledgeGraph, retrieve
+
+# text retrieval: BM25 + dense, fused with RRF, groundedness-filtered
+corpus = Corpus({"d1": "...", "d4": "..."})
+print(retrieve(corpus, "retrieval augmented generation", top_k=3))
+
+# graph retrieval: entity-seeded expansion, grounded by construction
+graph = KnowledgeGraph()
+graph.add_entity("alice", type="person")
+graph.add_entity("rag-engine", type="project", aliases=("RAG engine",))
+graph.add_relation("alice", "WORKS_ON", "rag-engine")
+print(GraphRAG(graph).retrieve("Who works on the RAG engine?", top_k=3))
+```
+
+## GraphRAG (Neo4j-ready)
+
+`graph.py` is a deterministic in-memory knowledge graph: entity extraction by
+id/alias match, undirected BFS expansion, score `1/(1+hops)`, cycle-safe.
+`graphrag.py` turns expansion into evidence passages — every result is
+reachable from a query seed, so groundedness holds by construction.
+
+| This repo | Neo4j equivalent |
+|---|---|
+| `extract_entities` | full-text / exact match on `id`, `aliases` |
+| `traverse` BFS | `MATCH p = (s:Node)-[*1..$hops]-(m:Node)` ordered by `length(p), m.id` |
+| `fact_text` | `RETURN` node properties + relationship rows |
+
+Point it at a live database with zero retrieval-code changes:
+
+```bash
+pip install neo4j   # optional, only for the live backend
+```
+
+```python
+from agentic_rag_hybrid import Neo4jGraphStore
+
+store = Neo4jGraphStore()  # reads NEO4J_URI / NEO4J_USER / NEO4J_PASSWORD
+print(store.traverse(["rag-engine"], max_hops=2))
+store.close()
 ```
 
 ```python
