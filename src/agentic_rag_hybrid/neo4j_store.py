@@ -12,10 +12,12 @@ __all__ = ["Neo4jGraphStore", "cypher_expand"]
 
 
 def cypher_expand(max_hops: int = 2) -> str:
-    """The traversal query: seeds in, ranked nodes out."""
+    """The traversal query: seeds in (hop 0), ranked nodes out."""
     return (
-        "MATCH p = (s:Node)-[*1..$hops]-(m:Node) "
-        "WHERE s.id IN $seeds "
+        "MATCH (s:Node) WHERE s.id IN $seeds "
+        "RETURN s.id AS node, 0 AS hops "
+        "UNION "
+        "MATCH p = (s:Node)-[*1..$hops]-(m:Node) WHERE s.id IN $seeds "
         "RETURN m.id AS node, length(p) AS hops "
         "ORDER BY hops, node"
     ).replace("$hops", str(max_hops))

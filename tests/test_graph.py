@@ -66,6 +66,7 @@ def test_cypher_builder_documents_the_swap():
     assert "MATCH p" in query
     assert "$seeds" in query
     assert "1..2" in query
+    assert "UNION" in query  # seeds included at hop 0, like the in-memory engine
 
 
 def test_neo4j_store_missing_driver_message():
