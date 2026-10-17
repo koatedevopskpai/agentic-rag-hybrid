@@ -2,6 +2,10 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/koatedevopskpai/agentic-rag-hybrid/ci.yml?branch=main)](https://github.com/koatedevopskpai/agentic-rag-hybrid/actions) [coverage ≥80% enforced in CI]
 
+> **Reviewing this?** Start at [EVIDENCE.md](EVIDENCE.md) — what the project is and
+> what "dense" actually means here, the strongest result with its provenance, how to
+> reproduce it, and what it does not establish.
+
 **Planner–Executor RAG with hybrid retrieval** — demo/enterprise retrieval that
 avoids the classic failure modes: sparse-only misses synonyms, dense-only misses
 exact terms, and ungrounded output gets trusted. This repo fuses **BM25
